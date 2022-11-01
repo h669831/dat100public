@@ -21,4 +21,15 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 /bin/
+=======
+
+# eclipse project file
+#.settings/
+#.classpath
+#.project
+
+# OS
+.DS_Store
+>>>>>>> branch 'master' of https://github.com/h669831/dat100public.git
