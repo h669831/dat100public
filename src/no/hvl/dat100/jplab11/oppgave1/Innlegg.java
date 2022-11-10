@@ -3,18 +3,17 @@ package no.hvl.dat100.jplab11.oppgave1;
 import no.hvl.dat100.jplab11.common.TODO;
 
 public abstract class Innlegg {
-	
+
 	// TODO - deklarering av objektvariable
-	protected int id;
-	protected String bruker;
-	protected String dato;
-	protected int likes;
-	
+	private int id;
+	private String bruker;
+	private String dato;
+	private int likes;
 
 	public Innlegg() {
-		
+
 	}
-	
+
 	public Innlegg(int id, String bruker, String dato) {
 		this.id = id;
 		this.bruker = bruker;
@@ -28,14 +27,14 @@ public abstract class Innlegg {
 		this.dato = dato;
 		this.likes = likes;
 	}
-	
+
 	public String getBruker() {
 		return this.bruker;
-		
+
 	}
 
 	public void setBruker(String bruker) {
-		 this.bruker = bruker;
+		this.bruker = bruker;
 	}
 
 	public String getDato() {
@@ -55,30 +54,29 @@ public abstract class Innlegg {
 		return this.likes;
 
 	}
-	
-	public void doLike () {
-		this.likes ++;
+
+	public void doLike() {
+		this.likes++;
 	}
-	
+
 	public boolean erLik(Innlegg innlegg) {
 		if (this.id == innlegg.id) {
 			return true;
-			
+
 		}
 		return false;
 	}
 
-	
 	@Override
 	public String toString() {
 		return this.id + "\n" + this.bruker + "\n" + this.dato + "\n" + this.likes + "\n";
-				
+
 	}
-	
+
 	// Metoden nedenfor er kun for valgfri oppgave 6
 	public String toHTML() {
-		
+
 		throw new UnsupportedOperationException(TODO.method());
-				
+
 	}
 }
