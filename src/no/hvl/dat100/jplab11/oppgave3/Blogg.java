@@ -1,6 +1,7 @@
 package no.hvl.dat100.jplab11.oppgave3;
 
-import no.hvl.dat100.jplab11.common.TODO;
+import java.util.Arrays;
+
 import no.hvl.dat100.jplab11.oppgave1.Innlegg;
 
 public class Blogg {
@@ -70,23 +71,44 @@ public class Blogg {
 	// valgfrie oppgaver nedenfor
 
 	public void utvid() {
-		throw new UnsupportedOperationException(TODO.method());
+		innleggtabell = Arrays.copyOf(innleggtabell, innleggtabell.length * 2);
 	}
 
 	public boolean leggTilUtvid(Innlegg innlegg) {
 
-		throw new UnsupportedOperationException(TODO.method());
+		if (!finnes(innlegg)) {
+			if (ledigPlass()) {
+				innleggtabell[nesteledige] = innlegg;
+				nesteledige++;
+				return true;
+			} else {
+				utvid();
+				innleggtabell[nesteledige] = innlegg;
+				nesteledige++;
+				return true;
+
+			}
+
+		}
+		return false;
 
 	}
 
 	public boolean slett(Innlegg innlegg) {
 
-		throw new UnsupportedOperationException(TODO.method());
+		if (finnes(innlegg)) {
+			int index = finnInnlegg(innlegg);
+			nesteledige--;
+			innleggtabell[index] = innleggtabell[nesteledige];
+			innleggtabell[nesteledige] = null;
+			return true;
+		}
+		return false;
 	}
 
 	public int[] search(String keyword) {
 
-		throw new UnsupportedOperationException(TODO.method());
+		// come backa later
 
 	}
 }
