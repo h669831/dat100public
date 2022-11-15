@@ -2,113 +2,125 @@ package no.hvl.dat100.jplab11.oppgave3;
 
 import java.util.Arrays;
 
-import no.hvl.dat100.jplab11.oppgave1.Innlegg;
+import no.hvl.dat100.jplab11.oppgave1.*;
+import no.hvl.dat100.jplab11.oppgave2.Bilde;
+import no.hvl.dat100.jplab11.oppgave2.Tekst;
 
 public class Blogg {
 
-	private Innlegg[] innleggtabell;
-	private int nesteledige;
+	protected Innlegg[] innleggtabell;
+	protected int nesteledig;
 
 	public Blogg() {
 		innleggtabell = new Innlegg[20];
-		this.nesteledige = 0;
+		nesteledig = 0;
 	}
 
 	public Blogg(int lengde) {
 		innleggtabell = new Innlegg[lengde];
-		this.nesteledige = 0;
+		nesteledig = 0;
 	}
 
 	public int getAntall() {
-		return this.nesteledige;
+		return this.nesteledig;
+		
 	}
-
+	
 	public Innlegg[] getSamling() {
-		return innleggtabell;
-	}
+	    Innlegg[] samling = innleggtabell;
+	    return samling;
 
+	}
+	
 	public int finnInnlegg(Innlegg innlegg) {
-		for (int i = 0; i < innleggtabell.length; i++) {
-			if (innlegg.erLik(innleggtabell[i])) {
-				return i;
-			}
+        for(int i = 0; i < innleggtabell.length; i++) {
+        if (innleggtabell[i] != null) {
+		if(innleggtabell[i].erLik(innlegg)) {
+			return i;
 		}
+        }
+        }
 		return -1;
 	}
 
 	public boolean finnes(Innlegg innlegg) {
-		if (finnInnlegg(innlegg) == -1) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean ledigPlass() {
-		if (nesteledige < innleggtabell.length) {
+		if (finnInnlegg(innlegg) >= 0) {
 			return true;
 		}
-		return false;
+		else return false;
 	}
 
-	public boolean leggTil(Innlegg innlegg) {
-		if (ledigPlass()) {
-			this.innleggtabell[nesteledige] = innlegg;
-			nesteledige++;
+	public boolean ledigPlass(){
+		if(this.nesteledig < innleggtabell.length ) {
 			return true;
 		}
-		return false;
+		else return false;		
 	}
-
+	
+	public boolean leggTil(Innlegg innlegg) { 
+		if(ledigPlass() && !finnes(innlegg)) {
+			innleggtabell[nesteledig] = innlegg;
+			nesteledig++;
+			return true;
+		}
+		else return false;
+	}
+	
 	public String toString() {
-		String output = "";
-		output += nesteledige + "\n";
-		for (int t = 0; t < nesteledige; t++) {
-			output += innleggtabell[t].toString();
+		String tabellData = this.nesteledig + "\n";
+		for(int i = 0; i < this.nesteledig; i++) {
+			tabellData += innleggtabell[i].toString();
 		}
-		return output;
+		return tabellData;
 	}
 
 	// valgfrie oppgaver nedenfor
-
+	
 	public void utvid() {
 		innleggtabell = Arrays.copyOf(innleggtabell, innleggtabell.length * 2);
 	}
-
+	
 	public boolean leggTilUtvid(Innlegg innlegg) {
-
-		if (!finnes(innlegg)) {
-			if (ledigPlass()) {
-				innleggtabell[nesteledige] = innlegg;
-				nesteledige++;
-				return true;
-			} else {
-				utvid();
-				innleggtabell[nesteledige] = innlegg;
-				nesteledige++;
-				return true;
-
-			}
-
-		}
-		return false;
-
-	}
-
-	public boolean slett(Innlegg innlegg) {
-
-		if (finnes(innlegg)) {
-			int index = finnInnlegg(innlegg);
-			nesteledige--;
-			innleggtabell[index] = innleggtabell[nesteledige];
-			innleggtabell[nesteledige] = null;
+		if(!finnes(innlegg)) {
+			if(ledigPlass()) {
+			innleggtabell[nesteledig] = innlegg;
+			nesteledig++;
 			return true;
+			}
+			else {
+				utvid();
+				innleggtabell[nesteledig] = innlegg;
+				nesteledig++;
+				return true;
+			}
 		}
-		return false;
+		else return false;	
 	}
-
+	
+	public boolean slett(Innlegg innlegg) {
+		if(finnes(innlegg)) {
+		int pos = finnInnlegg(innlegg);
+		nesteledig--;
+		innleggtabell[pos] = innleggtabell[nesteledig];
+		innleggtabell[nesteledig] = null;
+		return true;
+		}
+		else return false;
+		
+	}
+	
 	public int[] search(String keyword) {
-
-		// come backa later
+		int[] matches = new int[nesteledig];
+		int mch = 0;
+		for (int i = 0; i < nesteledig; i++) {
+			if(innleggtabell[i] instanceof Bilde || innleggtabell[i] instanceof Tekst) {
+				if (((Tekst) innleggtabell[i]).getTekst().contains(keyword)) {
+					matches[mch] = i;
+					mch++;
+				}
+			}
+		}
+		return matches;
 
 	}
 }
